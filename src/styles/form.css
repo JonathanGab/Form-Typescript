@@ -1,0 +1,36 @@
+.form-container {
+  height: calc(100vh - 3.5rem);
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+.form {
+  height: calc(100% - 3.5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.form-body {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+}
+.input {
+  margin: 1rem 0;
+}
+.button-container {
+  display: flex;
+  justify-content: end;
+}
+.button {
+  width: 15%;
+}
+.create {
+  font-size: 5em;
+}

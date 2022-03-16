@@ -1,0 +1,33 @@
+.header-container {
+  height: 3.5rem;
+  background-color: #ee2737;
+}
+
+.header-body {
+  height: 100%;
+  display: flex;
+  text-decoration: none;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.link {
+  color: white;
+  text-decoration: white;
+  margin: 0 1.5rem;
+}
+
+/* .link:hover {
+  animation: jump 0.8s linear infinite;
+}
+@keyframes jump {
+  from {
+    transform: translateY(0%);
+  }
+  50% {
+    transform: translateY(-50%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+} */

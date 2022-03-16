@@ -1,0 +1,16 @@
+.avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 15rem;
+  width: 100%;
+  border-radius: 100%;
+  background-color: rgba(170, 170, 170, 0.397);
+}
+
+.img-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
