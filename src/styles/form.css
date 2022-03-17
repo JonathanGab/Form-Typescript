@@ -27,10 +27,17 @@
 .button-container {
   display: flex;
   justify-content: end;
+  padding: 0;
 }
 .button {
   width: 15%;
 }
 .create {
   font-size: 5em;
+}
+
+.name-input,
+.city-input {
+  width: 40%;
+  margin: 1rem 0;
 }

@@ -1,6 +1,6 @@
 import '../styles/card.css';
 import styled from 'styled-components'
-// import avatar from '../assets/avatar.png';
+import avatar from '../assets/avatar.png';
 
 const Container = styled.div`
   margin: 1rem;
@@ -36,13 +36,13 @@ export default function Card({ name, city, profilePicture }: IWilderHeaderProps)
   return (
     <Container>
       <Wrapper>
-        {/* <div className="img-container">
+        <div className="img-container">
           <img
             src={profilePicture ? profilePicture : avatar}
             alt={`${name} avatar`}
             className="avatar"
           />
-        </div> */}
+        </div> 
         <CardContainer>
           <Header>
             <p>{name}</p>

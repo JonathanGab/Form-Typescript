@@ -6,6 +6,7 @@
   width: 100%;
   border-radius: 100%;
   background-color: rgba(170, 170, 170, 0.397);
+  object-fit: cover;
 }
 
 .img-container {

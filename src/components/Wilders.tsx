@@ -10,7 +10,7 @@ interface IWilder {
   name: string,
   city: string,
   profilePicture: string,
-  skills: {title: string, votes: number}[]
+  skills: {_id: string, title: string, votes: number}[]
 }
 
 export default function Wilders(): JSX.Element
@@ -51,13 +51,13 @@ export default function Wilders(): JSX.Element
     <div className="wilder-component-container">
             <div className="cards-container">
           {wilders.map((wilder) => (
-            <div className="cards">
+            <div key={wilder._id} className="cards">
               <div className="card-header">
                 <Card {...wilder} />
               </div>
               <div className="skills-wrapper">
                 {wilder.skills.map((el) => (
-                  <div className="cards-skills">
+                  <div key={el._id} className="cards-skills">
                     <Skills {...el} />
                   </div>
                 ))}
