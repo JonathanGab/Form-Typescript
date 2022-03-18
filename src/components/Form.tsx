@@ -1,70 +1,84 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import '../styles/form.css';
+import { toast } from 'react-toastify';
 
-interface ISkills {
-  index: number,
-  title: string,
-  votes: number
+interface ISkill {
+  title: string;
+  votes: number;
 }
 
 interface IWilder {
-  name: string,
-  city: string,
-  profilePicture?: string
-  skills: ISkills[]
+  name: string;
+  city: string;
+  profilePicture?: string;
+  skills: ISkill[];
 }
 
 export default function Form() {
-  const [skills, setSkills] = useState<ISkills[]>([{ index: 0, title: '', votes: 0}]);
-  const [wilder, setWilder] = useState<IWilder>({ name: '', city: '', profilePicture: '', skills: [...skills]});
+  const [wilder, setWilder] = useState<IWilder>({
+    name: '',
+    city: '',
+    profilePicture: '',
+    skills: [],
+  });
+  const [skills, setSkills] = useState<ISkill[]>([]);
+
+  const successToast = () => {
+    toast.success('Votre wilder a bel et bien été créé !');
+  };
+
+  const errorToast = () => {
+    toast.error('Une erreur est survenue lors de la création de votre wilder.');
+  };
 
   const createWilder = async (): Promise<void> => {
     try {
+      // Création d'une variable pour récolter toutes les données
       const wilderData: IWilder = {
         name: wilder.name,
         city: wilder.city,
         profilePicture: wilder.profilePicture,
-        skills: [...skills]
+        skills: skills,
       };
-      const newWilder = await axios.post(
-        'http://localhost:5000/api/wilders',
-      wilderData
-      );
-      console.log(newWilder.data);
+      await axios.post('http://localhost:5000/api/wilders', wilderData);
+      successToast();
+      setWilder({
+        name: '',
+        city: '',
+        profilePicture: '',
+        skills: [],
+      });
+      setSkills([]);
     } catch (err) {
       console.log(err);
+      errorToast();
     }
   };
 
-  const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    let data: any = [...skills];
-    // ICI A CHANGER !!!
-    data[index][event.target.title] = event.currentTarget.value;
-    setSkills(data);
-  }
+  const addSkills = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ): void => {
+    e.preventDefault();
+    const newSkills = skills.slice();
+    newSkills.push({ title: '', votes: 0 });
+    setSkills(newSkills);
+  };
 
-  const addFields = () => {
-    let object = {
-      index: 0,
-      title: '',
-      votes: 0
-    }
-    setSkills([...skills, object])
-  }
+  const removeSkills = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    index: number
+  ): void => {
+    e.preventDefault();
+    const newSkills = skills.slice();
+    newSkills.splice(index, 1);
+    setSkills(newSkills);
+  };
 
-  const removeFields = (index: number) => {
-    let data = [...skills];
-    data.splice(index, 1);
-    setSkills(data);
-  }
-
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     createWilder();
-  }
-
-  console.log(skills)
+  };
 
   return (
     <div className="form-container">
@@ -78,6 +92,7 @@ export default function Form() {
               value={wilder.name}
               placeholder="Name"
               className="name-input"
+              required
             />
             <input
               type="text"
@@ -96,31 +111,52 @@ export default function Form() {
             placeholder="Avatar"
             className="input"
           />
-          {skills.map((skill, index) => (    
-            <React.Fragment key={index}>          
-            <input type="text"
-            onChange={(event) => handleFormChange(event, index)}
-            defaultValue={skill.title}
-            className="input"
-            placeholder="Title"
-            />
-          <input
-            type="number"
-            onChange={(event) => handleFormChange(event, index)}
-            defaultValue={skill.votes}
-            className="input"
-            placeholder="Votes"    
-            />
-          <button onClick={() => removeFields(index)}>Remove</button>
+          {skills.map((skill, index) => (
+            <React.Fragment key={index}>
+              <input
+                type="text"
+                onChange={(e) => {
+                  const newValue = e.target.value;
+                  // Créer une copie du tableau
+                  const newSkills = skills.slice();
+                  // Modifier le contenu du tableau en retirant un élément
+                  newSkills.splice(index, 1, { ...skill, title: newValue });
+                  // Remplace skills par le tableau modifié
+                  setSkills(newSkills);
+                }}
+                value={skill.title}
+                className="input"
+                placeholder="Title"
+                required
+              />
+              <input
+                type="number"
+                min={0}
+                onChange={(e) => {
+                  const newValue = e.target.value;
+                  // Créer une copie du tableau
+                  const newSkills = skills.slice();
+                  // Modifier le contenu du tableau en retirant un élément
+                  newSkills.splice(index, 1, {
+                    ...skill,
+                    votes: Number(newValue),
+                  });
+                  // Remplace skills par le tableau modifié
+                  setSkills(newSkills);
+                }}
+                value={skill.votes}
+                className="input"
+                placeholder="Votes"
+                required
+              />
+              <button onClick={(e) => removeSkills(e, index)}>Remove</button>
             </React.Fragment>
           ))}
           <div className="button-container">
-            <button className="button">
-              Send
-            </button>
+            <button className="button">Send</button>
           </div>
         </form>
-        <button onClick={addFields}>Add More..</button>
+        <button onClick={addSkills}>Add Skills</button>
       </div>
     </div>
   );
