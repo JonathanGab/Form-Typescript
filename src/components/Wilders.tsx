@@ -6,6 +6,7 @@ import Skills from './Skills';
 import '../styles/wilders.css';
 import Loader from '../utils/Loader';
 import { toast } from 'react-toastify';
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 
 interface IWilder {
   _id: string;
@@ -45,6 +46,12 @@ export default function Wilders(): JSX.Element {
     }
   };
 
+  const returnOnTop = (): void => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
   async function getWilders(): Promise<void> {
     setLoading(true);
     try {
@@ -70,6 +77,10 @@ export default function Wilders(): JSX.Element {
         <Loader />
       ) : (
         <div className="cards-container">
+          <button type="button" onClick={returnOnTop} className="tothetop">
+            <ArrowCircleUpIcon fontSize="large" />
+          </button>
+
           {wilders.map((wilder) => (
             <Link key={wilder._id} to={`/wilder/${wilder._id}`}>
               <div className="cards">

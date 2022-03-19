@@ -117,7 +117,7 @@ export default function Form() {
                 type="text"
                 onChange={(e) => {
                   const newValue = e.target.value;
-                  // Créer une copie du tableau
+                  // Créer une copie du tableau avec slice()
                   const newSkills = skills.slice();
                   // Modifier le contenu du tableau en retirant un élément
                   newSkills.splice(index, 1, { ...skill, title: newValue });
